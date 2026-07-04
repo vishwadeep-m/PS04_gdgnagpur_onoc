@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Allow CORS for browser calls
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -8,7 +7,7 @@ export default async function handler(req, res) {
 
   const { text, mainCat, subCat } = req.body;
   if (!text || !mainCat || !subCat) {
-    return res.status(400).json({ error: 'Missing required fields: text, mainCat, subCat' });
+    return res.status(400).json({ error: 'Missing required fields' });
   }
 
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -37,8 +36,6 @@ CRITICAL RULES:
 Reply ONLY in valid JSON:
 { "urgency": "...", "requires_police": boolean, "department": "...", "budget_source": "...", "agent_action": "..." }`;
 
-  const aiContextText = `[Context: Category: ${mainCat}, Issue: ${subCat}]. Complaint: ${text}`;
-
   try {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
@@ -46,12 +43,8 @@ Reply ONLY in valid JSON:
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: `System Instruction: ${systemPrompt}\n\nComplaint: ${aiContextText}` }] }],
-          generationConfig: {
-            temperature: 0.1,
-            responseMimeType: 'application/json',
-            thinkingConfig: { thinkingBudget: 0 }
-          }
+          contents: [{ role: 'user', parts: [{ text: `System Instruction: ${systemPrompt}\n\nComplaint: [Category: ${mainCat}, Issue: ${subCat}]. ${text}` }] }],
+          generationConfig: { temperature: 0.1, responseMimeType: 'application/json', thinkingConfig: { thinkingBudget: 0 } }
         })
       }
     );
@@ -62,11 +55,8 @@ Reply ONLY in valid JSON:
     }
 
     const data = await response.json();
-    let rawText = data.candidates[0].content.parts[0].text
-      .replace(/```json/g, '').replace(/```/g, '').trim();
-    const aiResult = JSON.parse(rawText);
-    return res.status(200).json(aiResult);
-
+    let rawText = data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
+    return res.status(200).json(JSON.parse(rawText));
   } catch (e) {
     console.error('submit.js error:', e);
     return res.status(500).json({ error: e.message });
