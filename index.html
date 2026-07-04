@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
     <title>ONOC - Unified Triage</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -11,13 +12,11 @@
             50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); border-color: #ef4444; }
             100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.2); border-color: #fca5a5; }
         }
-        /* National Theme Colors */
         .tab-active { border-bottom: 4px solid #ff9933; color: #ff9933; font-weight: bold; }
         .tab-inactive { color: #64748b; font-weight: normal; }
         .tab-inactive:hover { color: #1e293b; }
         .bg-saffron { background-color: #ff9933; }
         .bg-india-green { background-color: #138808; }
-
         @keyframes pop {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); color: #ff9933; }
@@ -29,16 +28,14 @@
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
 
-    <!-- Global Header -->
     <header class="bg-slate-900 text-white p-4 shadow-md flex justify-between items-center z-20 relative border-b-4 border-saffron">
         <div class="flex items-center gap-3">
             <i class="fa-solid fa-dharmachakra text-blue-400 text-2xl animate-[spin_10s_linear_infinite]"></i>
             <h1 class="text-xl font-bold tracking-wide">ONOC <span class="text-xs text-slate-400 font-normal">One Nation, One Complaint (Agentic Routing)</span></h1>
         </div>
-
         <div class="flex items-center gap-3">
             <div class="bg-slate-700 text-slate-300 border border-slate-600 px-3 py-1.5 rounded text-xs flex items-center gap-2">
-              <i class="fa-solid fa-shield-halved text-emerald-400"></i> AI Key: Secured Server-Side
+                <i class="fa-solid fa-shield-halved text-emerald-400"></i> AI Key: Secured Server-Side
             </div>
             <div class="bg-emerald-900/50 text-emerald-400 border border-emerald-800 px-3 py-1 rounded-full text-xs flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div> System Online
@@ -46,7 +43,6 @@
         </div>
     </header>
 
-    <!-- Role Navigation -->
     <nav class="bg-white border-b border-slate-200 shadow-sm z-10 flex px-6 pt-2 overflow-x-auto">
         <button onclick="switchTab('citizen')" id="tab-citizen" class="tab-active px-5 py-3 transition-colors flex items-center gap-2 whitespace-nowrap">
             <i class="fa-solid fa-mobile-screen"></i> Citizen Portal
@@ -67,20 +63,16 @@
 
     <main class="flex-1 overflow-hidden relative">
 
-        <!-- ==================== VIEW 1: CITIZEN PORTAL ==================== -->
+        <!-- CITIZEN PORTAL -->
         <div id="view-citizen" class="h-full flex overflow-hidden">
             <div class="w-1/2 p-8 overflow-y-auto bg-slate-50">
-
-                <!-- On-behalf banner (shown when a Social Worker files for a citizen) -->
                 <div id="on-behalf-banner" class="hidden mb-4 bg-indigo-50 border border-indigo-200 text-indigo-800 text-sm p-3 rounded-lg flex items-center justify-between">
                     <span><i class="fa-solid fa-user-shield mr-2"></i>Filing as a <b>Verified Social Worker</b> on behalf of a citizen.</span>
                     <button onclick="cancelOnBehalf()" class="text-xs underline">Cancel</button>
                 </div>
-
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">Raise a Complaint</h2>
                     <p class="text-slate-500 text-sm mb-6">Our AI will automatically route your issue to the correct department.</p>
-
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Main Category</label>
@@ -100,12 +92,9 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="mb-4 relative">
+                    <div class="mb-4">
                         <textarea id="complaint-text" rows="4" class="w-full border border-slate-300 rounded-lg p-4 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-inner resize-none transition-all" placeholder="Describe the specific details of the issue..."></textarea>
                     </div>
-
-                    <!-- Evidence: photo + geolocation -->
                     <div class="grid grid-cols-2 gap-3 mb-4">
                         <div class="border border-dashed border-slate-300 rounded-lg p-3 text-center">
                             <input type="file" id="evidence-photo" accept="image/*" class="hidden" onchange="handlePhotoSelect(event)">
@@ -122,19 +111,16 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="flex items-center justify-between mb-6 bg-slate-100 p-3 rounded-lg border border-slate-200">
                         <div>
                             <span class="block text-sm font-bold text-slate-700">File Anonymously</span>
-                            <span class="block text-xs text-slate-500">Hide my name from public records and MPs. Police still receive identity for `requires_police` cases only (see note below).</span>
+                            <span class="block text-xs text-slate-500">Hide my name from public records and MPs.</span>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="anon-toggle" class="sr-only peer">
                             <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-slate-800"></div>
                         </label>
                     </div>
-
-                    <!-- Duplicate-detection suggestion panel -->
                     <div id="duplicate-suggestion" class="hidden mb-4 bg-amber-50 border border-amber-300 rounded-lg p-4">
                         <p class="text-sm font-bold text-amber-800 mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> This looks similar to an existing complaint</p>
                         <p id="duplicate-text" class="text-xs text-amber-700 mb-3 italic"></p>
@@ -143,14 +129,11 @@
                             <button onclick="pendingDuplicateOverride=true; dismissDuplicateSuggestion(); submitComplaint();" class="flex-1 bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold py-2 rounded-lg">No, Mine Is Different — Submit Anyway</button>
                         </div>
                     </div>
-
                     <button id="submit-btn" onclick="submitComplaint()" class="w-full bg-saffron hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-md">
                         <i class="fa-solid fa-paper-plane"></i> Submit to AI Agent
                     </button>
                     <div id="status-msg" class="mt-4 text-sm font-medium text-center hidden"></div>
                 </div>
-
-                <!-- Test Cases -->
                 <div class="mt-6">
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Quick Fill (For Hackathon Demo)</h3>
                     <div class="flex flex-wrap gap-2">
@@ -161,19 +144,16 @@
                     </div>
                 </div>
             </div>
-
             <div class="w-1/2 bg-slate-100 p-8 border-l border-slate-200 overflow-y-auto">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-bold text-slate-800">Community Feed (Your Area)</h3>
                     <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded">Upvote to prioritize</span>
                 </div>
-                <div id="citizen-history" class="space-y-4">
-                    <!-- Populated by JS -->
-                </div>
+                <div id="citizen-history" class="space-y-4"></div>
             </div>
         </div>
 
-        <!-- ==================== VIEW 2: MP COMMAND CENTER ==================== -->
+        <!-- MP COMMAND CENTER -->
         <div id="view-mp" class="h-full hidden overflow-hidden flex flex-col bg-slate-50 p-6">
             <div class="flex justify-between items-center mb-4">
                 <div>
@@ -195,35 +175,28 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Human Review Queue: requires_police / Critical items are gated here before going live -->
             <div id="review-queue-wrap" class="mb-4 hidden">
-                <h3 class="text-sm font-bold text-purple-700 mb-2"><i class="fa-solid fa-user-check mr-1"></i>Human Review Queue — approve before this reaches Authority dashboards</h3>
+                <h3 class="text-sm font-bold text-purple-700 mb-2"><i class="fa-solid fa-user-check mr-1"></i>Human Review Queue</h3>
                 <div id="review-queue" class="space-y-2 mb-4"></div>
             </div>
-
-            <!-- Escalated (repeated false-resolution) cases -->
             <div id="escalated-wrap" class="mb-4 hidden">
-                <h3 class="text-sm font-bold text-red-700 mb-2"><i class="fa-solid fa-fire mr-1"></i>Escalated to MP Office (repeated false resolutions)</h3>
+                <h3 class="text-sm font-bold text-red-700 mb-2"><i class="fa-solid fa-fire mr-1"></i>Escalated to MP Office</h3>
                 <div id="escalated-feed" class="space-y-2 mb-4"></div>
             </div>
-
             <h3 class="text-sm font-bold text-slate-600 mb-2">All Approved Complaints</h3>
-            <div class="flex-1 overflow-y-auto pr-2" id="mp-feed">
-                <!-- Populated by JS -->
-            </div>
+            <div class="flex-1 overflow-y-auto pr-2" id="mp-feed"></div>
         </div>
 
-        <!-- ==================== VIEW 3: AUTHORITY VIEW ==================== -->
+        <!-- AUTHORITY VIEW -->
         <div id="view-authority" class="h-full hidden overflow-hidden flex flex-col bg-slate-50 p-6">
             <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-800">Authority Work Queue</h2>
-                    <p class="text-sm text-slate-500">Simulating Authority Login Silos. <span class="text-slate-400">// TODO: needs real per-department accounts + backend auth</span></p>
+                    <p class="text-sm text-slate-500">Simulating Authority Login Silos.</p>
                 </div>
                 <div class="flex items-center gap-4">
                     <span class="text-sm font-bold text-slate-600">Simulate Login As:</span>
-                    <select id="dept-filter" onchange="renderAuthorityView()" class="border-slate-300 rounded-lg text-sm p-2 bg-slate-100 shadow-sm focus:ring-2 focus:ring-saffron">
+                    <select id="dept-filter" onchange="renderAuthorityView()" class="border-slate-300 rounded-lg text-sm p-2 bg-slate-100 shadow-sm focus:ring-2 focus:ring-orange-400">
                         <option value="ALL">Super Admin (All Depts)</option>
                         <option value="Police Department">Police Department</option>
                         <option value="NMC (Municipal)">NMC (Municipal)</option>
@@ -233,32 +206,23 @@
                     </select>
                 </div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 overflow-y-auto pb-10" id="authority-feed">
-                <!-- Populated by JS -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 overflow-y-auto pb-10" id="authority-feed"></div>
         </div>
 
-        <!-- ==================== VIEW 4: SOCIAL WORKER PORTAL ==================== -->
+        <!-- SOCIAL WORKER PORTAL -->
         <div id="view-social" class="h-full hidden overflow-hidden flex flex-col bg-slate-50 p-6">
-
-            <!-- Registration gate -->
             <div id="sw-register-panel" class="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                 <h2 class="text-xl font-bold text-slate-800 mb-2"><i class="fa-solid fa-people-group mr-2 text-indigo-500"></i>Social Worker Registration</h2>
-                <p class="text-sm text-slate-500 mb-4">Access requires manual approval. Provide your NGO registration and proof of work. <span class="text-slate-400 block mt-1">// TODO: real approval needs a backend admin queue + document verification, not a client-side timer</span></p>
+                <p class="text-sm text-slate-500 mb-4">Access requires manual approval. Provide your NGO registration and proof of work.</p>
                 <input id="sw-name" type="text" placeholder="Full Name" class="w-full border border-slate-300 rounded-lg p-2 text-sm mb-3">
                 <input id="sw-ngo-id" type="text" placeholder="NGO Registration Number" class="w-full border border-slate-300 rounded-lg p-2 text-sm mb-3">
                 <input type="file" class="w-full text-xs text-slate-500 mb-4">
                 <button onclick="submitSocialWorkerRegistration()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-lg">Submit for Approval</button>
             </div>
-
-            <!-- Pending state -->
             <div id="sw-pending-panel" class="hidden max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow-sm border border-slate-200 text-center">
                 <i class="fa-solid fa-spinner fa-spin text-2xl text-indigo-500 mb-3"></i>
                 <p class="text-sm text-slate-600">Verifying your registration (simulated)...</p>
             </div>
-
-            <!-- Oversight view (post-approval) -->
             <div id="sw-oversight-panel" class="hidden flex-1 flex flex-col overflow-hidden">
                 <div class="flex justify-between items-center mb-4">
                     <div>
@@ -275,11 +239,10 @@
             </div>
         </div>
 
-        <!-- ==================== VIEW 5: PUBLIC TRANSPARENCY DASHBOARD ==================== -->
+        <!-- PUBLIC DASHBOARD -->
         <div id="view-public" class="h-full hidden overflow-y-auto bg-slate-50 p-6">
             <h2 class="text-2xl font-bold text-slate-800 mb-1">Public Transparency Dashboard</h2>
-            <p class="text-sm text-slate-500 mb-6">Aggregated, anonymized stats — no personal or complaint-identifying data shown here.</p>
-
+            <p class="text-sm text-slate-500 mb-6">Aggregated, anonymized stats.</p>
             <div class="grid grid-cols-3 gap-4 mb-8 max-w-2xl">
                 <div class="bg-white p-4 rounded-xl border shadow-sm text-center">
                     <span class="block text-xs text-slate-400 mb-1">Total Complaints</span>
@@ -294,7 +257,6 @@
                     <span class="text-2xl font-bold text-slate-800" id="pub-avg-time">—</span>
                 </div>
             </div>
-
             <h3 class="text-sm font-bold text-slate-600 mb-3">Complaints by Department</h3>
             <div id="pub-dept-bars" class="max-w-2xl"></div>
         </div>
@@ -302,10 +264,6 @@
     </main>
 
     <script>
-        // --- 1. GLOBAL STATE (In-Memory Database) ---
-        // TODO: needs a real backend + persistent DB. This resets on page refresh and
-        // is not shared across users/devices — acceptable for a demo, not for production.
-
         const SLA_HOURS = { Standard: 168, Urgent: 72, Critical: 24 };
         const VALID_DEPARTMENTS = ["Police Department", "NMC (Municipal)", "PWD / State Infrastructure", "Health Ministry", "Railways / National Highways Authority"];
         const VALID_BUDGET_SOURCES = ["NMC Budget", "State MLA Fund", "Central MP Fund", "Home Ministry (State)"];
@@ -318,7 +276,6 @@
             return { slaHours: hours, slaDeadline: Date.now() + hours * 3600 * 1000, slaBreached: false };
         }
 
-        // Pre-loaded with one dummy complaint so the dashboards aren't empty initially
         let globalComplaints = [
             {
                 id: "CMP-" + Math.floor(Math.random() * 10000),
@@ -331,7 +288,7 @@
                 upvotes: 12,
                 department: "NMC (Municipal)",
                 budget_source: "NMC Budget",
-                agent_action: "Dispatched automated SMS to Ward Officer. Grouped 12 duplicate complaints into this master ticket. // TODO: real SMS dispatch needs a backend + telecom API integration",
+                agent_action: "Dispatched automated alert to Ward Officer. Grouped duplicate complaints into this master ticket.",
                 status: "Pending",
                 timestamp: new Date().toLocaleTimeString(),
                 createdAt: Date.now() - 2 * 3600 * 1000,
@@ -357,50 +314,16 @@
         function updateSubcategories() {
             const mainCat = document.getElementById('main-category').value;
             const subCatSelect = document.getElementById('sub-category');
-
             subCatSelect.innerHTML = '<option value="" disabled selected>Select specific issue...</option>';
-
             if (mainCat && subCategoryMap[mainCat]) {
                 subCatSelect.disabled = false;
                 subCatSelect.classList.remove('bg-slate-100');
                 subCatSelect.classList.add('bg-white');
-
                 subCategoryMap[mainCat].forEach(sub => {
                     subCatSelect.innerHTML += `<option value="${sub}">${sub}</option>`;
                 });
             }
         }
-
-        // --- 2. THE PROMPT (The "Brain" & Your USP) ---
-        const systemPrompt = `You are an AI Civic Agent for a Member of Parliament in India.
-        Analyze the citizen complaint along with their selected Category and Sub-category context.
-        You must verify the urgency, route to a department, and assign a budget source.
-
-        CRITICAL RULES:
-        1. If the complaint or sub-category mentions harassment, violence, threats, women/child safety, or police misconduct, set "requires_police" to true.
-        2. Assign "urgency" as EXACTLY one of: "Standard", "Urgent", "Critical".
-        3. Assign "budget_source" as EXACTLY one of these strings (no others):
-           - "NMC Budget" (local roads, garbage, water, streetlights)
-           - "State MLA Fund" (state highways, state hospitals)
-           - "Central MP Fund" (railways, national highways, airports)
-           - "Home Ministry (State)" (security/crime/police issues)
-        4. Assign "department" as EXACTLY one of these strings (no others):
-           - "Police Department"
-           - "NMC (Municipal)"
-           - "PWD / State Infrastructure"
-           - "Health Ministry"
-           - "Railways / National Highways Authority"
-
-        Reply ONLY in a valid JSON format EXACTLY like this:
-        {
-            "urgency": "Standard, Urgent, or Critical",
-            "requires_police": boolean,
-            "department": "String (one of the exact department strings above)",
-            "budget_source": "String (one of the exact budget strings above)",
-            "agent_action": "String (e.g., 'Drafted high-priority email to Police Commissioner')"
-        }`;
-
-        // --- 3. CORE FUNCTIONS ---
 
         function fillTest(text) {
             document.getElementById('complaint-text').value = text;
@@ -421,16 +344,11 @@
             return fallback;
         }
 
-        // --- Evidence: photo + geolocation (Citizen Portal feature) ---
         let selectedPhotoDataUrl = null;
         function handlePhotoSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
-            if (file.size > 3 * 1024 * 1024) {
-                alert('Please choose an image under 3MB for this demo.');
-                event.target.value = '';
-                return;
-            }
+            if (file.size > 3 * 1024 * 1024) { alert('Please choose an image under 3MB.'); event.target.value = ''; return; }
             const reader = new FileReader();
             reader.onload = e => {
                 selectedPhotoDataUrl = e.target.result;
@@ -443,33 +361,21 @@
 
         let selectedLocation = null;
         function captureLocation() {
-            if (!navigator.geolocation) {
-                document.getElementById('location-status').innerText = 'Geolocation not supported by this browser';
-                return;
-            }
+            if (!navigator.geolocation) { document.getElementById('location-status').innerText = 'Geolocation not supported'; return; }
             document.getElementById('location-status').innerText = 'Locating...';
             navigator.geolocation.getCurrentPosition(
-                pos => {
-                    selectedLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-                    document.getElementById('location-status').innerText = 'Location attached ✓';
-                },
-                err => {
-                    document.getElementById('location-status').innerText = 'Could not get location (permission denied?)';
-                }
+                pos => { selectedLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude }; document.getElementById('location-status').innerText = 'Location attached ✓'; },
+                () => { document.getElementById('location-status').innerText = 'Could not get location'; }
             );
         }
 
-        // --- Duplicate detection (client-side text similarity; real system should use embeddings server-side) ---
-        function tokenize(str) {
-            return new Set(String(str).toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2));
-        }
+        function tokenize(str) { return new Set(String(str).toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2)); }
         function jaccardSimilarity(a, b) {
             const setA = tokenize(a), setB = tokenize(b);
             if (setA.size === 0 || setB.size === 0) return 0;
             let intersection = 0;
             setA.forEach(w => { if (setB.has(w)) intersection++; });
-            const unionSize = new Set([...setA, ...setB]).size;
-            return unionSize === 0 ? 0 : intersection / unionSize;
+            return intersection / new Set([...setA, ...setB]).size;
         }
         function findSimilarComplaint(text, subCat) {
             let best = null, bestScore = 0;
@@ -482,7 +388,7 @@
         }
         function showDuplicateSuggestion(match, pct) {
             document.getElementById('duplicate-text').innerText = `"${match.text}" (${pct}% similar, ${match.upvotes} upvotes)`;
-            document.getElementById('duplicate-upvote-btn').setAttribute('onclick', `upvote('${match.id}'); dismissDuplicateSuggestion(); resetComplaintForm(); showStatus('Upvoted the existing complaint instead — thanks for helping us avoid duplicates!');`);
+            document.getElementById('duplicate-upvote-btn').setAttribute('onclick', `upvote('${match.id}'); dismissDuplicateSuggestion(); resetComplaintForm(); showStatus('Upvoted the existing complaint — thanks!');`);
             document.getElementById('duplicate-suggestion').classList.remove('hidden');
             document.getElementById('submit-btn').disabled = true;
         }
@@ -495,6 +401,7 @@
             document.getElementById('complaint-text').value = '';
             document.getElementById('main-category').value = '';
             document.getElementById('sub-category').innerHTML = '<option value="">Select main category first...</option>';
+            document.getElementById('sub-category').disabled = true;
             document.getElementById('anon-toggle').checked = false;
             document.getElementById('evidence-photo').value = '';
             document.getElementById('photo-preview').classList.add('hidden');
@@ -506,25 +413,20 @@
 
         let pendingDuplicateOverride = false;
 
+        // ✅ FIXED submitComplaint — no apiKey, calls /api/submit
         async function submitComplaint() {
-            const apiKey = document.getElementById('api-key').value.trim();
             const text = document.getElementById('complaint-text').value.trim();
             const mainCat = document.getElementById('main-category').value;
             const subCat = document.getElementById('sub-category').value;
             const isAnon = document.getElementById('anon-toggle').checked;
             const btn = document.getElementById('submit-btn');
 
-            if (!apiKey) return showStatus("Please paste your Gemini API Key first.", true);
             if (!mainCat || !subCat) return showStatus("Please select a Category and Specific Issue.", true);
             if (!text) return showStatus("Complaint text cannot be empty.", true);
 
-            // Duplicate check gate — halts submission until the citizen picks an option
             if (!pendingDuplicateOverride) {
                 const dup = findSimilarComplaint(text, subCat);
-                if (dup) {
-                    showDuplicateSuggestion(dup.complaint, Math.round(dup.score * 100));
-                    return;
-                }
+                if (dup) { showDuplicateSuggestion(dup.complaint, Math.round(dup.score * 100)); return; }
             }
             pendingDuplicateOverride = false;
 
@@ -532,74 +434,54 @@
             btn.disabled = true;
             document.getElementById('status-msg').classList.add('hidden');
 
-            const aiContextText = `[Context: User selected Category: ${mainCat}, Issue: ${subCat}]. Detailed Complaint: ${text}`;
-
             try {
-                               const response = await fetch('/api/submit', {
+                const response = await fetch('/api/submit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text, mainCat, subCat })
                 });
 
                 if (!response.ok) {
-                        const errData = await response.json();
-                        throw new Error(errData.error || `Server error ${response.status}`);
-                    }
-                    
+                    const errData = await response.json();
+                    throw new Error(errData.error || `Server error ${response.status}`);
+                }
+
                 const aiResult = await response.json();
 
-                // --- Enum validation: never trust raw AI strings for high-stakes routing fields ---
                 const urgency = clampEnum(aiResult.urgency, VALID_URGENCY, "Standard");
                 const department = clampEnum(aiResult.department, VALID_DEPARTMENTS, FALLBACK_DEPARTMENT);
                 const budget_source = clampEnum(aiResult.budget_source, VALID_BUDGET_SOURCES, FALLBACK_BUDGET);
                 const requires_police = aiResult.requires_police === true;
-
-                // --- Human-review gate: police-flagged or Critical items wait for MP-side approval ---
                 const needsReview = requires_police || urgency === 'Critical';
 
                 const newComplaint = {
-                    id: "CMP-" + Math.floor(Math.random() * 10000),
-                    text: text,
-                    category: mainCat,
-                    sub_category: subCat,
-                    is_anonymous: isAnon,
-                    upvotes: 0,
-                    urgency, requires_police, department, budget_source,
+                    id: "CMP-" + Math.floor(Math.random() * 100000),
+                    text, category: mainCat, sub_category: subCat, is_anonymous: isAnon,
+                    upvotes: 0, urgency, requires_police, department, budget_source,
                     agent_action: aiResult.agent_action || "Routed by AI agent.",
                     status: "Pending",
                     timestamp: new Date().toLocaleTimeString(),
                     createdAt: Date.now(),
-                    false_resolutions: 0,
-                    resolvedAt: null,
-                    photo: selectedPhotoDataUrl,
-                    location: selectedLocation,
+                    false_resolutions: 0, resolvedAt: null,
+                    photo: selectedPhotoDataUrl, location: selectedLocation,
                     reviewStatus: needsReview ? "Pending Review" : "Approved",
-                    escalatedToMP: false,
-                    raised_by: raisedByMode,
+                    escalatedToMP: false, raised_by: raisedByMode,
                     ...makeSla(urgency)
                 };
 
-                if (requires_police) {
-                    globalComplaints.unshift(newComplaint);
-                } else {
-                    globalComplaints.push(newComplaint);
-                }
+                if (requires_police) globalComplaints.unshift(newComplaint);
+                else globalComplaints.push(newComplaint);
 
                 resetComplaintForm();
-                if (raisedByMode === 'Social Worker') { cancelOnBehalf(); }
-
+                if (raisedByMode === 'Social Worker') cancelOnBehalf();
                 showStatus(needsReview
-                    ? "Complaint filed — flagged for priority human review before it reaches the Authority dashboard."
+                    ? "Complaint filed — flagged for priority human review!"
                     : "Complaint processed and routed successfully!");
                 renderAllViews();
 
             } catch (error) {
                 console.error(error);
-                if (error.message === 'Failed to fetch') {
-                    showStatus("Network/CORS error: the request never reached Google's servers. If you're previewing this inside a sandboxed tool/extension, open the .html file directly in a normal browser tab instead (or serve it via 'python3 -m http.server'). Also check for ad-blockers/privacy extensions blocking the request.", true);
-                } else {
-                    showStatus(`Error: ${error.message}`, true);
-                }
+                showStatus(`Error: ${error.message}`, true);
             } finally {
                 btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit to AI Agent';
                 btn.disabled = false;
@@ -627,30 +509,23 @@
             });
         }
 
-        // Action from Authority
         function markResolved(id) {
             const complaint = globalComplaints.find(c => c.id === id);
-            if (complaint) {
-                complaint.status = "Pending Citizen Verification";
-                renderAllViews();
-            }
+            if (complaint) { complaint.status = "Pending Citizen Verification"; renderAllViews(); }
         }
 
-        // Action from Authority: dispute/reroute if AI mis-assigned the department
         function disputeDepartment(id) {
             const c = globalComplaints.find(x => x.id === id);
             if (!c) return;
-            const list = VALID_DEPARTMENTS.join('\n');
-            const answer = prompt(`Current department: ${c.department}\n\nType the correct department EXACTLY as shown:\n${list}`);
+            const answer = prompt(`Current department: ${c.department}\n\nType the correct department EXACTLY:\n${VALID_DEPARTMENTS.join('\n')}`);
             if (!answer) return;
             const match = VALID_DEPARTMENTS.find(d => d.toLowerCase() === answer.trim().toLowerCase());
-            if (!match) { alert('Department not recognized — please type it exactly as shown.'); return; }
+            if (!match) { alert('Department not recognized.'); return; }
             c.department = match;
-            c.agent_action += ` | [Manual Override] Rerouted to ${match} by receiving authority.`;
+            c.agent_action += ` | [Manual Override] Rerouted to ${match}.`;
             renderAllViews();
         }
 
-        // Action from Citizen (Verification Loop) — with false-resolution escalation cap
         function citizenVerify(id, isResolved) {
             const complaint = globalComplaints.find(c => c.id === id);
             if (complaint) {
@@ -662,37 +537,33 @@
                     complaint.false_resolutions += 1;
                     complaint.urgency = "Critical";
                     complaint.agent_action = `[SYSTEM OVERRIDE] Citizen rejected resolution. False Resolution Count: ${complaint.false_resolutions}. Escalated.`;
-                    // Escalation cap: 2nd rejection auto-escalates to MP Office instead of looping back to the same authority
                     if (complaint.false_resolutions >= 2 && !complaint.escalatedToMP) {
                         complaint.escalatedToMP = true;
-                        complaint.agent_action += ` | [Escalation Cap Reached] Forwarded to MP Office / Escalation Cell.`;
+                        complaint.agent_action += ` | [Escalation Cap Reached] Forwarded to MP Office.`;
                     }
                 }
                 renderAllViews();
             }
         }
 
-        // Citizen-triggered follow-up escalation if there's been no response
         function escalateFollowUp(id) {
             const c = globalComplaints.find(x => x.id === id);
             if (!c) return;
             c.urgency = "Critical";
-            c.agent_action += ' | [Citizen Escalation] No response received — citizen triggered follow-up escalation.';
+            c.agent_action += ' | [Citizen Escalation] No response — citizen triggered follow-up.';
             const sla = makeSla("Critical");
             c.slaHours = sla.slaHours; c.slaDeadline = sla.slaDeadline; c.slaBreached = false;
             renderAllViews();
         }
 
-        // MP-side human review queue actions
         function reviewComplaint(id, decision) {
             const c = globalComplaints.find(x => x.id === id);
             if (!c) return;
             c.reviewStatus = decision;
-            c.agent_action += decision === 'Approved' ? ' | [Human Review] Approved for publishing.' : ' | [Human Review] Rejected by moderator.';
+            c.agent_action += decision === 'Approved' ? ' | [Human Review] Approved.' : ' | [Human Review] Rejected.';
             renderAllViews();
         }
 
-        // --- SLA tracking ---
         function getSlaBadge(c) {
             if (c.status === 'Resolved') return { label: 'Resolved', cls: 'bg-emerald-100 text-emerald-700' };
             const remaining = c.slaDeadline - Date.now();
@@ -702,13 +573,14 @@
             if (hrs < 48) return { label: `${Math.round(hrs)}h left`, cls: 'bg-blue-50 text-blue-700' };
             return { label: `${Math.round(hrs / 24)}d left`, cls: 'bg-slate-100 text-slate-600' };
         }
+
         function checkSlaBreaches() {
             let changed = false;
             globalComplaints.forEach(c => {
                 if (c.status !== 'Resolved' && !c.slaBreached && Date.now() > c.slaDeadline) {
                     c.slaBreached = true;
                     if (c.urgency !== 'Critical') c.urgency = 'Critical';
-                    c.agent_action += ' | [System Alert] SLA deadline breached. Auto-escalated to Critical.';
+                    c.agent_action += ' | [System Alert] SLA breached. Auto-escalated to Critical.';
                     changed = true;
                 }
             });
@@ -717,11 +589,9 @@
 
         function formatDuration(ms) {
             const hrs = ms / 3600000;
-            if (hrs < 48) return Math.round(hrs) + 'h';
-            return Math.round(hrs / 24) + 'd';
+            return hrs < 48 ? Math.round(hrs) + 'h' : Math.round(hrs / 24) + 'd';
         }
 
-        // --- Social Worker Portal ---
         let socialWorkerApproved = false;
         let raisedByMode = 'Citizen';
 
@@ -731,7 +601,6 @@
             if (!name || !ngoId) { alert('Please fill in your name and NGO registration number.'); return; }
             document.getElementById('sw-register-panel').classList.add('hidden');
             document.getElementById('sw-pending-panel').classList.remove('hidden');
-            // TODO: real approval needs a backend admin queue reviewing actual documents
             setTimeout(() => { socialWorkerApproved = true; renderSocialWorkerView(); }, 1500);
         }
 
@@ -745,8 +614,6 @@
             document.getElementById('on-behalf-banner').classList.add('hidden');
         }
 
-        // --- 4. VIEW RENDERING LOGIC ---
-
         function renderAllViews() {
             renderCitizenView();
             renderMPDashboard();
@@ -758,7 +625,6 @@
         function renderCitizenView() {
             const historyContainer = document.getElementById('citizen-history');
             historyContainer.innerHTML = '';
-
             globalComplaints.forEach(c => {
                 const sla = getSlaBadge(c);
                 historyContainer.innerHTML += `
@@ -776,7 +642,6 @@
                         <p class="text-sm text-slate-800 mb-3 font-medium">"${c.text}"</p>
                         ${c.photo ? `<img src="${c.photo}" class="h-20 rounded mb-2 object-cover">` : ''}
                         ${c.location ? `<a href="https://www.google.com/maps?q=${c.location.lat},${c.location.lng}" target="_blank" class="text-xs text-blue-500 underline mb-2 inline-block"><i class="fa-solid fa-location-dot"></i> View location</a>` : ''}
-
                         ${c.status === 'Pending Citizen Verification' ? `
                             <div class="bg-purple-50 p-3 rounded-lg border border-purple-200 mt-2">
                                 <p class="text-xs text-purple-800 font-bold mb-2">Authority claims this is resolved. Is it?</p>
@@ -784,9 +649,7 @@
                                     <button onclick="citizenVerify('${c.id}', true)" class="bg-india-green hover:bg-green-700 text-white text-xs px-3 py-1 rounded font-bold"><i class="fa-solid fa-check"></i> Yes, Resolved</button>
                                     <button onclick="citizenVerify('${c.id}', false)" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded font-bold"><i class="fa-solid fa-xmark"></i> No, Still Broken</button>
                                 </div>
-                            </div>
-                        ` : ''}
-
+                            </div>` : ''}
                         <div class="flex justify-between items-center border-t pt-3 mt-2">
                             <div class="text-xs text-slate-500 flex items-center gap-2">
                                 Routed to: <span class="font-bold text-slate-700">${c.department}</span>
@@ -797,8 +660,7 @@
                                 <span class="text-sm font-bold">${c.upvotes}</span>
                             </button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
@@ -831,28 +693,22 @@
                             )
                         }
                     </div>
-                </div>
-            `;
+                </div>`;
         }
 
         function renderMPDashboard() {
             const approved = globalComplaints.filter(c => c.reviewStatus === 'Approved');
             const pendingReview = globalComplaints.filter(c => c.reviewStatus === 'Pending Review');
             const escalated = approved.filter(c => c.escalatedToMP);
-            const criticalCount = approved.filter(c => c.requires_police || c.urgency === 'Critical').length;
-
             document.getElementById('stat-total').innerText = approved.length;
-            document.getElementById('stat-critical').innerText = criticalCount;
+            document.getElementById('stat-critical').innerText = approved.filter(c => c.requires_police || c.urgency === 'Critical').length;
             document.getElementById('stat-pending-review').innerText = pendingReview.length;
 
-            // Review queue
             const reviewWrap = document.getElementById('review-queue-wrap');
-            const reviewQueue = document.getElementById('review-queue');
-            if (pendingReview.length === 0) {
-                reviewWrap.classList.add('hidden');
-            } else {
+            if (pendingReview.length === 0) { reviewWrap.classList.add('hidden'); }
+            else {
                 reviewWrap.classList.remove('hidden');
-                reviewQueue.innerHTML = pendingReview.map(c => `
+                document.getElementById('review-queue').innerHTML = pendingReview.map(c => `
                     <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 flex justify-between items-center gap-3">
                         <div class="text-sm">
                             <span class="font-bold text-purple-800">${c.urgency}${c.requires_police ? ' · Police Flag' : ''}</span>
@@ -862,62 +718,45 @@
                             <button onclick="reviewComplaint('${c.id}','Approved')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded">Approve & Publish</button>
                             <button onclick="reviewComplaint('${c.id}','Rejected')" class="bg-slate-400 hover:bg-slate-500 text-white text-xs font-bold px-3 py-1.5 rounded">Reject</button>
                         </div>
-                    </div>
-                `).join('');
+                    </div>`).join('');
             }
 
-            // Escalated section
             const escWrap = document.getElementById('escalated-wrap');
-            const escFeed = document.getElementById('escalated-feed');
-            if (escalated.length === 0) {
-                escWrap.classList.add('hidden');
-            } else {
+            if (escalated.length === 0) { escWrap.classList.add('hidden'); }
+            else {
                 escWrap.classList.remove('hidden');
-                escFeed.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">${escalated.map(c => complaintCardCompact(c, { showDispute: false })).join('')}</div>`;
+                document.getElementById('escalated-feed').innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">${escalated.map(c => complaintCardCompact(c, { showDispute: false })).join('')}</div>`;
             }
 
-            // Main feed
             const feed = document.getElementById('mp-feed');
-            if (approved.length === 0) {
-                feed.innerHTML = `<div class="text-center text-slate-400 mt-10 p-10 bg-white rounded-lg border border-dashed border-slate-300">No approved complaints yet.</div>`;
-                return;
-            }
-            feed.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">${approved.map(c => complaintCardCompact(c, { showDispute: false, showResolve: false })).join('')}</div>`;
+            feed.innerHTML = approved.length === 0
+                ? `<div class="text-center text-slate-400 mt-10 p-10 bg-white rounded-lg border border-dashed border-slate-300">No approved complaints yet.</div>`
+                : `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">${approved.map(c => complaintCardCompact(c, { showDispute: false, showResolve: false })).join('')}</div>`;
         }
 
         function renderAuthorityView() {
             const feed = document.getElementById('authority-feed');
             const filter = document.getElementById('dept-filter').value;
-            const approved = globalComplaints.filter(c => c.reviewStatus === 'Approved');
-            const filteredComplaints = approved.filter(c => filter === 'ALL' || c.department === filter);
-
-            if (filteredComplaints.length === 0) {
-                feed.innerHTML = `<div class="col-span-full text-center text-slate-400 mt-10 p-10 bg-white rounded-lg border border-dashed border-slate-300">No pending issues for this department.</div>`;
-                return;
-            }
-            feed.innerHTML = filteredComplaints.map(c => complaintCardCompact(c)).join('');
+            const filtered = globalComplaints.filter(c => c.reviewStatus === 'Approved' && (filter === 'ALL' || c.department === filter));
+            feed.innerHTML = filtered.length === 0
+                ? `<div class="col-span-full text-center text-slate-400 mt-10 p-10 bg-white rounded-lg border border-dashed border-slate-300">No pending issues for this department.</div>`
+                : filtered.map(c => complaintCardCompact(c)).join('');
         }
 
         function renderSocialWorkerView() {
-            if (!socialWorkerApproved) return; // registration/pending panels handle their own visibility
+            if (!socialWorkerApproved) return;
             document.getElementById('sw-register-panel').classList.add('hidden');
             document.getElementById('sw-pending-panel').classList.add('hidden');
             document.getElementById('sw-oversight-panel').classList.remove('hidden');
-
             const approved = globalComplaints.filter(c => c.reviewStatus === 'Approved');
-
             const deptFlags = {};
             approved.forEach(c => { deptFlags[c.department] = (deptFlags[c.department] || 0) + c.false_resolutions; });
-            const flagsDiv = document.getElementById('sw-dept-flags');
-            flagsDiv.innerHTML = Object.entries(deptFlags).map(([dept, count]) => `
+            document.getElementById('sw-dept-flags').innerHTML = Object.entries(deptFlags).map(([dept, count]) => `
                 <div class="bg-white border rounded-lg p-3 text-center">
                     <span class="block text-xs text-slate-400">${dept}</span>
                     <span class="font-bold ${count > 0 ? 'text-red-600' : 'text-slate-700'}">${count} reverted</span>
-                </div>
-            `).join('') || '<p class="text-xs text-slate-400 col-span-4">No data yet.</p>';
-
-            const feed = document.getElementById('sw-feed');
-            feed.innerHTML = approved.length
+                </div>`).join('') || '<p class="text-xs text-slate-400 col-span-4">No data yet.</p>';
+            document.getElementById('sw-feed').innerHTML = approved.length
                 ? `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">${approved.map(c => complaintCardCompact(c, { showDispute: false, showResolve: false })).join('')}</div>`
                 : `<div class="text-center text-slate-400 mt-10 p-10 bg-white rounded-lg border border-dashed border-slate-300">No approved complaints yet.</div>`;
         }
@@ -929,46 +768,31 @@
             const resolvedPct = total ? Math.round((resolved.length / total) * 100) : 0;
             const withResTime = resolved.filter(c => c.resolvedAt);
             const avgMs = withResTime.length ? withResTime.reduce((s, c) => s + (c.resolvedAt - c.createdAt), 0) / withResTime.length : 0;
-
             document.getElementById('pub-total').innerText = total;
             document.getElementById('pub-resolved-pct').innerText = resolvedPct + '%';
             document.getElementById('pub-avg-time').innerText = avgMs ? formatDuration(avgMs) : '—';
-
             const deptCounts = {};
             approved.forEach(c => { deptCounts[c.department] = (deptCounts[c.department] || 0) + 1; });
             const maxCount = Math.max(1, ...Object.values(deptCounts));
-            const bars = document.getElementById('pub-dept-bars');
-            const entries = Object.entries(deptCounts).sort((a, b) => b[1] - a[1]);
-            bars.innerHTML = entries.length ? entries.map(([dept, count]) => `
+            document.getElementById('pub-dept-bars').innerHTML = Object.entries(deptCounts).sort((a, b) => b[1] - a[1]).map(([dept, count]) => `
                 <div class="mb-3">
                     <div class="flex justify-between text-xs font-bold text-slate-600 mb-1"><span>${dept}</span><span>${count}</span></div>
                     <div class="w-full bg-slate-100 rounded-full h-3"><div class="bg-saffron h-3 rounded-full" style="width:${(count / maxCount * 100)}%"></div></div>
-                </div>
-            `).join('') : '<p class="text-xs text-slate-400">No data yet.</p>';
+                </div>`).join('') || '<p class="text-xs text-slate-400">No data yet.</p>';
         }
 
-        // --- 5. TAB NAVIGATION LOGIC ---
         function switchTab(tabId) {
-            const allTabs = ['citizen', 'mp', 'authority', 'social', 'public'];
-            allTabs.forEach(id => {
+            ['citizen', 'mp', 'authority', 'social', 'public'].forEach(id => {
                 document.getElementById(`view-${id}`).classList.add('hidden');
-                const tab = document.getElementById(`tab-${id}`);
-                tab.classList.remove('tab-active');
-                tab.classList.add('tab-inactive');
+                document.getElementById(`tab-${id}`).className = 'tab-inactive px-5 py-3 transition-colors flex items-center gap-2 whitespace-nowrap';
             });
             document.getElementById(`view-${tabId}`).classList.remove('hidden');
-            const activeTab = document.getElementById(`tab-${tabId}`);
-            activeTab.classList.remove('tab-inactive');
-            activeTab.classList.add('tab-active');
+            document.getElementById(`tab-${tabId}`).className = 'tab-active px-5 py-3 transition-colors flex items-center gap-2 whitespace-nowrap';
         }
 
-        // Periodic SLA breach check (client-side timer; a real system needs a server-side cron/job queue)
         setInterval(checkSlaBreaches, 15000);
-        setInterval(renderAllViews, 60000); // keeps countdowns/badges fresh
-
-        // Initialize on load
+        setInterval(renderAllViews, 60000);
         renderAllViews();
-
     </script>
 </body>
 </html>
